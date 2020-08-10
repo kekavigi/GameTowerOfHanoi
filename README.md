@@ -1,11 +1,6 @@
 # Game Tower of Hanoi
 
-<<<<<<< HEAD
-
-*Projects of Elementary Number Theory Course (MA2252)*
-=======
 **Projects of Elementary Number Theory Course (MA2252)**
->>>>>>> e7681c3b63afab478e16d154dc9ed61195023a0d
 
 2nd Semester of Academic Year 2018/2019
 
