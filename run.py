@@ -4,34 +4,46 @@ import models
 import textrect
 import pygame.font
 from bahasa import game_dict
+import os.path
+
 
 pg.init()
 pg.mixer.init()
 
 # ==============================================================================
-# konstanta global yang dipakai dalam game,
+# konstanta global yang dipakai dalam game
+GAME_CAPTION = "Tower of Hanoi!"
+filepath = os.path.dirname(__file__)
+
 # ukuran windows game
 GAME_WIDTH = 900
 GAME_HEIGHT = 600
 
 # Font yang dipakai dalam game.
 # Jika ngga eksplisit disebut, fungsi akan menggunakan GAME_FONT secara default
-GAME_FONT = "C:/Users/USER/PycharmProjects/GameHanoi05/font/fonto.ttf"
-GAME_FONT2 = "C:/Users/USER/PycharmProjects/GameHanoi05/font/DK Jambo.otf"
+GAME_FONT = os.path.join(filepath, "font/fonto.ttf")
+GAME_FONT2 = os.path.join(filepath, "font/DK Jambo.otf")
 
 # Musik yang dipakai dalam game
-BG_MUSIC = 'C:/Users/USER/PycharmProjects/GameHanoi05/music/music.mp3'
-
-GAME_CAPTION = 'Tower of Hanoi!'
-BACK_BUTTON = "C:/Users/USER/PycharmProjects/GameHanoi05/img/back.png"
+BG_MUSIC = os.path.join(filepath, "music/music.mp3")
 
 
+# Gambar yang dipakai dalam game
+PLAY_HANOI = os.path.join(filepath, "img/play-h.png")
+SLIDER_ON = os.path.join(filepath, "img/tog-on.png")
+SLIDER_OFF = os.path.join(filepath, "img/tog-off.png")
+BUTTON_HOF = os.path.join(filepath, "img/hof.png")
+BUTTON_BACK = os.path.join(filepath, "img/back.png")
+BUTTON_EXIT = os.path.join(filepath, "img/exit.png")
+BUTTON_ABOUT = os.path.join(filepath, "img/about.png")
+BUTTON_SECRET = os.path.join(filepath, "img/secret.png")
+BUTTON_SETTING = os.path.join(filepath, "img/setting.png")
 
 # ==============================================================================
 # initialisasi game
 gameDisplay = pg.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
 gameClock = pg.time.Clock()
-gameIcon = pg.image.load('C:/Users/USER/PycharmProjects/GameHanoi05/img/logo.png')
+gameIcon = pg.image.load(os.path.join(filepath, "img/logo.png"))
 pg.display.set_caption(GAME_CAPTION)
 pg.display.set_icon(gameIcon)
 #pg.mixer.music.load(b_music)
@@ -102,9 +114,9 @@ def pgSlider(pos, var=True):
     # ubah gambar slider menurut state baru
     if var:
         # slider dalam posisi on
-        pgImage(pos, size, "C:/Users/USER/PycharmProjects/GameHanoi05/img/tog-on.png", action=None)
+        pgImage(pos, size, SLIDER_ON, action=None)
     else:
-        pgImage(pos, size, "C:/Users/USER/PycharmProjects/GameHanoi05/img/tog-off.png", action=None)
+        pgImage(pos, size, SLIDER_OFF, action=None)
 
     return var
 
@@ -159,12 +171,12 @@ def GameHomePage():
         pgText(game_dict[lang]['game_title'], (GAME_WIDTH/2, 100), 90, font_name=GAME_FONT2)
 
         # buat pilihan menu utama
-        pgImage((GAME_WIDTH/2-100, GAME_HEIGHT/2-100), (200, 200), "C:/Users/USER/PycharmProjects/GameHanoi05/img/play-h.png", GameHistory)
-        pgImage((GAME_WIDTH/6-40, 450), (80, 80), "C:/Users/USER/PycharmProjects/GameHanoi05/img/about.png", GameAbout)
-        pgImage((GAME_WIDTH/6*2-40, 450), (80, 80), "C:/Users/USER/PycharmProjects/GameHanoi05/img/secret.png", GameSecret1)
-        pgImage((GAME_WIDTH/6*3-40, 450), (80, 80), "C:/Users/USER/PycharmProjects/GameHanoi05/img/hof.png", GameHOF)
-        pgImage((GAME_WIDTH/6*4-40, 450), (80, 80), "C:/Users/USER/PycharmProjects/GameHanoi05/img/setting.png", GameSetting)
-        pgImage((GAME_WIDTH/6*5-40, 450), (80, 80), "C:/Users/USER/PycharmProjects/GameHanoi05/img/exit.png", GameQuit)
+        pgImage((GAME_WIDTH/2-100, GAME_HEIGHT/2-100), (200, 200), PLAY_HANOI, GameHistory)
+        pgImage((GAME_WIDTH/6-40, 450), (80, 80), BUTTON_ABOUT, GameAbout)
+        pgImage((GAME_WIDTH/6*2-40, 450), (80, 80), BUTTON_SECRET, GameSecret1)
+        pgImage((GAME_WIDTH/6*3-40, 450), (80, 80), BUTTON_HOF, GameHOF)
+        pgImage((GAME_WIDTH/6*4-40, 450), (80, 80), BUTTON_SETTING, GameSetting)
+        pgImage((GAME_WIDTH/6*5-40, 450), (80, 80), BUTTON_EXIT, GameQuit)
 
         # refresh tampilan game
         pg.display.update()
@@ -263,11 +275,11 @@ def GamePlay():
                 drop = True
 
         gameDisplay.fill(adt.color_use("background"))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
 
         if init_game:
 
-            pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+            pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
             pgText(game_dict[lang]['play_info'].format(str(moves_counter), str(round(play_time, 1))), (GAME_WIDTH/2, 120), 20)
 
             if game_over:
@@ -351,7 +363,7 @@ def GameAbout():
                 GameQuit()
 
         gameDisplay.fill(adt.color_use('background'))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
         
         pgText(game_dict[lang]['about'], (GAME_WIDTH/2, 50), 50)
         pgParagraf(game_dict[lang]['about_text'], (GAME_WIDTH/2-250, 100, 500, GAME_HEIGHT))
@@ -374,7 +386,7 @@ def GameHOF():
                 GameQuit()
 
         gameDisplay.fill(adt.color_use('background'))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
 
         pgText(game_dict[lang]['highscore'], (GAME_WIDTH/2, 50), 50)
 
@@ -397,7 +409,7 @@ def GameSetting():
                 GameQuit()
 
         gameDisplay.fill(adt.color_use('background'))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
 
         pgText(game_dict[lang]['settings'], (GAME_WIDTH/2, 50), 50)
         pgText(game_dict[lang]['sound'], (GAME_WIDTH/2-200, GAME_HEIGHT/2-50), 40)
@@ -434,7 +446,7 @@ def GameLogin():
     global sound
     global lang
 
-    font = pg.font.Font("C:/Users/USER/PycharmProjects/GameHanoi05/font/fonto.ttf", 20)
+    font = pg.font.Font(GAME_FONT, 20)
     input_box = pg.Rect((GAME_WIDTH/2-100, GAME_HEIGHT/2), (200, 32))
     color_inactive = pg.Color(139, 195, 74)
     color_active = pg.Color(104, 159, 56)
@@ -481,7 +493,7 @@ def GameLogin():
         # Blit the input_box rect.
         pg.draw.rect(gameDisplay, color, input_box, 2)
 
-        pgImage((GAME_WIDTH/2-100, GAME_HEIGHT/2-250), (200, 200), "C:/Users/USER/PycharmProjects/GameHanoi05/img/play-h.png")
+        pgImage((GAME_WIDTH/2-100, GAME_HEIGHT/2-250), (200, 200), PLAY_HANOI)
 
         pgText(game_dict[lang]['enter_name'], (GAME_WIDTH/2, GAME_HEIGHT/2-40), 20)
 
@@ -514,7 +526,7 @@ def GameHistory():
                 GameQuit()
 
         gameDisplay.fill(adt.color_use('background'))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
 
         pgText(game_dict[lang]['history'], (GAME_WIDTH/2, 50), 50)
         pgParagraf(game_dict[lang]['history_text'], (GAME_WIDTH/2-250, 100, 500, GAME_HEIGHT))
@@ -538,7 +550,7 @@ def GameInstruction():
                 GameQuit()
 
         gameDisplay.fill(adt.color_use('background'))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHistory)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHistory)
 
         pgText(game_dict[lang]['instruction'], (GAME_WIDTH/2, 50), 50)
         pgParagraf(game_dict[lang]['instruction_text'], (GAME_WIDTH/2-250, 100, 500, GAME_HEIGHT))
@@ -560,7 +572,7 @@ def GameSecret1():
                 GameQuit()
 
         gameDisplay.fill(adt.color_use('background'))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
 
         pgText(game_dict[lang]['secret'], (GAME_WIDTH/2, 50), 50)
         pgParagraf(game_dict[lang]['secret_text1'], (GAME_WIDTH/2-250, 100, 500, GAME_HEIGHT))
@@ -587,7 +599,7 @@ def GameSecret2():
                 GameQuit()
 
         gameDisplay.fill(adt.color_use('background'))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
 
         pgText(game_dict[lang]['secret'], (GAME_WIDTH/2, 50), 50)
         pgParagraf(game_dict[lang]['secret_text2'], (GAME_WIDTH/2-250, 100, 500, GAME_HEIGHT))
@@ -614,7 +626,7 @@ def GameSecret3():
                 GameQuit()
 
         gameDisplay.fill(adt.color_use('background'))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
 
         pgText(game_dict[lang]['secret'], (GAME_WIDTH/2, 50), 50)
         pgParagraf(game_dict[lang]['secret_text3'], (GAME_WIDTH/2-250, 100, 500, GAME_HEIGHT))
@@ -641,7 +653,7 @@ def GameSecret4():
                 GameQuit()
 
         gameDisplay.fill(adt.color_use('background'))
-        pgImage((10, 10), (80, 80), BACK_BUTTON, GameHomePage)
+        pgImage((10, 10), (80, 80), BUTTON_BACK, GameHomePage)
 
         pgText(game_dict[lang]['secret'], (GAME_WIDTH/2, 50), 50)
         pgParagraf(game_dict[lang]['secret_text4'], (GAME_WIDTH/2-250, 100, 500, GAME_HEIGHT))
